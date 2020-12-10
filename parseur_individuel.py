@@ -1,13 +1,16 @@
 import requests as rq
 from bs4 import BeautifulSoup as bfs
-import re
 import sys
+import os
 import csv
 
 if len(sys.argv) != 2:
     print("Vous ne devez passer qu'un seul argument dans la commande.")
     print("Cet argument doit nécessairement être l'URL du livre concerné.")
     quit()
+
+csvFileName = input(
+    "Nom du fichier csv (inutile de préciser .csv) : ") + ".csv"
 
 url = sys.argv[1]
 
@@ -57,25 +60,51 @@ def productImg(response):
     }
 
 
-def dumpIntoCSV(response):
+def productRating(response):
+    rateValues = {"One": 1, "Two": 2, "Three": 3, "Four": 4, "Five": 5}
+    soup = bfs(response.text, features="html.parser")
+    rating = soup.find("p", class_="star-rating")
+    starRating = rating.attrs["class"][1]
+    return {"review_rating": rateValues[starRating]}
+
+
+def productCategory(response):
+    soup = bfs(response.text, features="html.parser")
+    category = soup.find("ul", class_="breadcrumb")
+    return {"category": category.findAll("a")[2].text}
+
+
+def dumpIntoCSV(response, csvFileName):
     """
     Récupère tous les dictionnaires des différentes fonctions et les
     cumule dans un dictionnaire dont les keys servent à initialiser
     les champs du fichier csv, puis d'y écrire les values correspondates. 
     """
     bookInfo = {
+        **productTitle(response),
         **productInformation(response),
         **productUrl(response),
-        **productTitle(response),
         **productionDescription(response),
+        **productCategory(response),
+        **productRating(response),
         **productImg(response)
     }
-    with open("name.csv", "w+", newline='') as csvfile:
+
+    # Si le fichier n'existe pas, il est créé et les noms des champs
+    # sont renseignés au passage. Sinon, les informations sont ajoutées
+    # à la suite des valeurs déjà présentes
+    if not os.path.exists(csvFileName):
+        with open(csvFileName, "w+", newline='') as csvfile:
+            columnNames = bookInfo.keys()
+            writer = csv.DictWriter(csvfile, fieldnames=columnNames)
+            writer.writeheader()
+
+    with open(csvFileName, "a+", newline='') as csvfile:
         columnNames = bookInfo.keys()
         writer = csv.DictWriter(csvfile, fieldnames=columnNames)
-        writer.writeheader()
+        # writer.writeheader()
         writer.writerow(bookInfo)
-        print("dépôt des information dans le fichier : ./name.csv")
+        print(f"dépôt des information dans le fichier : {csvFileName}")
 
 
-dumpIntoCSV(response)
+dumpIntoCSV(response, csvFileName)
