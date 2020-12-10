@@ -13,7 +13,7 @@ product_page_url
 - review_rating
 - image_url
 
-Pour le moment, le script ne permet de récupérer les informations d'un seul livre.
+Pour le moment, le script ne permet de récupérer les informations que d'un seul livre.
 
 # Utilisation
 

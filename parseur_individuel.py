@@ -16,7 +16,7 @@ response = rq.get(url)
 response.encoding = "utf-8"
 
 
-def productDescription(response):
+def productInformation(response):
     """
     La fonction récupère les informations contenues dans
     la partie 'Production Description' du site. Elles sont
@@ -34,6 +34,10 @@ def productDescription(response):
     return dict(zip(thList, tdList))
 
 
+def productionDescription(response):
+    soup = bfs(response.text, features="html.parser")
+    descriptionText = soup.find("article", class_="product_page")
+    return {"Production_Description": descriptionText.findAll("p")[3].text}
 
 
 def productUrl(response):
@@ -60,9 +64,10 @@ def dumpIntoCSV(response):
     les champs du fichier csv, puis d'y écrire les values correspondates. 
     """
     bookInfo = {
-        **productDescription(response),
+        **productInformation(response),
         **productUrl(response),
         **productTitle(response),
+        **productionDescription(response),
         **productImg(response)
     }
     with open("name.csv", "w+", newline='') as csvfile:
