@@ -87,7 +87,6 @@ def dumpIntoCSV(response, csvFileName):
     with open(csvFileName, "a+", newline='') as csvfile:
         columnNames = bookInfo.keys()
         writer = csv.DictWriter(csvfile, fieldnames=columnNames)
-        # writer.writeheader()
         writer.writerow(bookInfo)
         print(f"dépôt des information dans le fichier : {csvFileName}")
 
