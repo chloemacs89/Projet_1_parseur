@@ -2,7 +2,8 @@
 
 Ce script permet de parser le site internet "http://books.toscrape.com" afin de pouvoir récupérer
 les informations suivantes et de les stocker dans un fichier .csv :
-product_page_url
+
+- product_page_url
 - universal_ product_code (upc)
 - title
 - price_including_tax
@@ -12,8 +13,6 @@ product_page_url
 - category
 - review_rating
 - image_url
-
-Pour le moment, le script ne permet de récupérer les informations que d'un seul livre.
 
 # Utilisation
 
@@ -28,3 +27,5 @@ nom du fichier dans lequel il souhaite déposer les informations recherchées. S
 pas, il est créé dans le répertoire où est exécuter le script. Si le fichier existe déjà, il n'est
 pas écrasé, et les informations demandées seront ajouter à la suite de celles déjà présentes dans le
 fichier. 
+
+

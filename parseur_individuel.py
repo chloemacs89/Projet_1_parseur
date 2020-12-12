@@ -4,21 +4,6 @@ import sys
 import os
 import csv
 
-if len(sys.argv) != 2:
-    print("Vous ne devez passer qu'un seul argument dans la commande.")
-    print("Cet argument doit nécessairement être l'URL du livre concerné.")
-    quit()
-
-csvFileName = input(
-    "Nom du fichier csv (inutile de préciser .csv) : ") + ".csv"
-
-url = sys.argv[1]
-
-response = rq.get(url)
-
-response.encoding = "utf-8"
-
-
 def productInformation(response):
     """
     La fonction récupère les informations contenues dans
@@ -107,4 +92,17 @@ def dumpIntoCSV(response, csvFileName):
         print(f"dépôt des information dans le fichier : {csvFileName}")
 
 
-dumpIntoCSV(response, csvFileName)
+if __name__ == '__main__':
+    if sys.argv != 2:
+        print("Erreur : argument manquant ou argument en excès.")
+        print("Fonctionnement : python parseur_livre.py <URL>")
+        quit()
+
+    url = sys.argv[1]
+    response = rq.get(url)
+    response.encoding = "utf-8"
+    
+    csvFileName = input("Nom du fichier csv (inutile de précise .csv) : ")
+
+    dumpIntoCSV(response, csvFileName)
+
