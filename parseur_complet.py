@@ -15,7 +15,7 @@ def makeCategoryList(response, url):
     for category in getCategory.findAll("li"):
         catLink = url + category.a.get("href")
         catName = category.a.text.strip()
-        categoryDict[catName] = catLink.rstrip("index.html")
+        categoryDict[catName.capitalize()] = catLink.rstrip("index.html")
 
     return categoryDict
 
@@ -75,22 +75,16 @@ def categoryChoice(response, url):
     soup = bfs(response.text, features="html.parser")
     catList = makeCategoryList(response, url)
     print("Vous pouvez choisir de scrapper une catégorie particulière.")
-    print(
-        "Si vous répondez 'non' à la question ci-dessous, la totalité du site sera scrappé."
-    )
-    choice = input(
-        "Souhaitez-vous selectionner une catégorie (oui/non) : ").lower()
+    print("Si vous répondez 'non' à la question ci-dessous, la totalité du site sera scrappé.")
+    choice = input("Souhaitez-vous selectionner une catégorie (oui/non) : ").lower()
     if choice == "oui":
         print(50 * "-")
-        print(
-            "Choisissez la catégorie à scrapper parmis les catégories suivantes :"
-        )
+        print("Choisissez la catégorie à scrapper parmis les catégories suivantes :")
         print(50 * "-")
         for catNum, catName in enumerate(catList.keys()):
             print(catNum + 1, ":", catName)
         print(50 * "-")
-        catChoice = input(
-            "Nom de la catégorie que vous souhaitez scrapper : ").capitalize()
+        catChoice = input("Nom de la catégorie que vous souhaitez scrapper : ").capitalize()
         if catChoice in catList.keys():
             print(f"La catégorie {catChoice} va être scrappée !")
             return catList[catChoice]
@@ -110,14 +104,15 @@ def main():
     response = rq.get(url)
     response.encoding = "utf-8"
     catUrl = categoryChoice(response, url)
-    csvFileName = input(
-        "Choisissez le nom du fichier csv (inutile de préciser .csv) : "
-    ) + ".csv"
+    csvFileName = input("Choisissez le nom du fichier csv (inutile de préciser .csv) : ") + ".csv"
     if catUrl:
         for livre in getBookPageUrl(response, catUrl, catUrl):
             pageLivre = rq.get(livre)
             pageLivre.encoding = "utf-8"
             dumpIntoCSV(pageLivre, csvFileName)
+
+    print(50*"-")
+    print("Opération terminée")
 
 
 main()

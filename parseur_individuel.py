@@ -88,7 +88,8 @@ def dumpIntoCSV(response, csvFileName):
         columnNames = bookInfo.keys()
         writer = csv.DictWriter(csvfile, fieldnames=columnNames)
         writer.writerow(bookInfo)
-        print(f"dépôt des information dans le fichier : {csvFileName}")
+        print(f"Dépôt du livre {bookInfo['Title']} dans le fichier {csvFileName}.",
+              end="\r", flush=True)
 
 
 if __name__ == '__main__':

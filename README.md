@@ -26,7 +26,8 @@ Si le script s'éxécute correctement, ce dernier demandera à l'utilisateur de 
 qu'il souhaite scrapper ainsi que le nom du fichier dans lequel il souhaite déposer les informations
 recherchées. Si aucune catégorie spécifique n'est demandée, l'ensemble du site est alors scrapper. 
 
-Si le fichier n'existe pas, il est créé dans le répertoire où est exécuter le script. Si le fichier existe déjà, iln'est pas écrasé, et les informations demandées seront ajouter à la suite de celles déjà présentes dans le fichier.
+Si le fichier n'existe pas, il est créé dans le répertoire où est exécuter le script. Si le fichier
+existe déjà, il n'est pas écrasé, et les informations demandées seront ajouter à la suite de celles déjà présentes dans le fichier.
 
 Le script fait appel au module parseur_individuel.py qui se charge de collecter les informations de
 chaque livre présent dans la catégorie demandée. Vous avez la possibilité de l'utiliser
