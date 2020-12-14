@@ -27,8 +27,7 @@ def getBookPageUrl(response, url, baseUrl):
     demandées.
     """
     bookUrlList = []
-    everyPageUrl = [url + "index.html"] + getCategoryPagesUrl(
-        response, url, baseUrl)
+    everyPageUrl = [url + "index.html"] + getCategoryPagesUrl(response, url, baseUrl)
 
     for page in everyPageUrl:
         response = rq.get(page)
@@ -104,12 +103,22 @@ def main():
     response = rq.get(url)
     response.encoding = "utf-8"
     catUrl = categoryChoice(response, url)
-    csvFileName = input("Choisissez le nom du fichier csv (inutile de préciser .csv) : ") + ".csv"
+    if catUrl:
+        csvFileName = input("Choisissez le nom du fichier csv (inutile de préciser .csv) : ")
+    else:
+        quit()
+    if csvFileName and not csvFileName.isspace():
+        csvFileName = csvFileName + ".csv"
+    else:
+        print("Le nom du fichier ne doit pas être vide.")
+        quit()
     if catUrl:
         for livre in getBookPageUrl(response, catUrl, catUrl):
             pageLivre = rq.get(livre)
             pageLivre.encoding = "utf-8"
             dumpIntoCSV(pageLivre, csvFileName)
+    else:
+        quit()
 
     print(50*"-")
     print("Opération terminée")
