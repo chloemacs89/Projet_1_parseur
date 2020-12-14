@@ -31,6 +31,6 @@ existe déjà, il n'est pas écrasé, et les informations demandées seront ajou
 
 Le script fait appel au module parseur_individuel.py qui se charge de collecter les informations de
 chaque livre présent dans la catégorie demandée. Vous avez la possibilité de l'utiliser
-individuellement en entrant **python parseur_individuel.py <URL du livre>**. 
+individuellement en entrant **python parseur_individuel.py "URL du livre"**. 
 
 
